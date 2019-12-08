@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font: 13px Helvetica, Arial;
+      }
+      .container {
+        border: 2px solid #ccc;
+        width: 500px;
+        margin: 10px auto 10px auto;
+        height: 75vh;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-between;
+      }
+      .container:hover {
+        background: rgb(250, 250, 250);
+      }
+      .container .messages {
+        overflow: scroll;
+      }
+      form {
+        height: 100%;
+      }
+      form input {
+        width: 90%;
+        height: 100%;
+        border: none;
+        border-top: 2px solid #ccc;
+        padding: 5px;
+      }
+      input:focus {
+        outline: none;
+      }
+      form button {
+        width: 10%;
+        background: rgb(130, 224, 255);
+        border: none;
+        border-top: 2px solid #ccc;
+        border-left: 2px solid #ccc;
+        padding: 10px;
+        cursor: pointer;
+      }
+      form button:hover {
+        background: rgb(28, 198, 255);
+      }
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      #messages li {
+        padding: 5px 10px;
+        background-color: rgb(219, 219, 219);
+      }
+      #messages li:nth-child(odd) {
+        background: #eee;
+      }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="messages">
+        <ul id="messages"></ul>
+      </div>
+      <div>
+        <form id="form">
+          <input id="input" autocomplete="off" /><button type="submit">
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
+    <script>
+      const socket = io();
+
+      const messageForm = document.getElementById("form");
+      const messageInput = document.getElementById("input");
+
+      messageForm.onsubmit = e => {
+        e.preventDefault();
+        if (messageInput.value !== "") {
+          socket.emit("chat message", messageInput.value);
+          messageInput.value = "";
+        }
+        return false;
+      };
+
+      function appendMessageToChat(message) {
+        const newMsg = document.createElement("li");
+        const newMsgText = document.createTextNode(message);
+        newMsg.appendChild(newMsgText);
+        document.getElementById("messages").appendChild(newMsg);
+      }
+
+      socket.on("user joined", () => {
+        const newMsg = document.createElement("li");
+        appendMessageToChat("A new user joined the chat.");
+      });
+
+      socket.on("chat message", msg => {
+        appendMessageToChat(msg);
+      });
+    </script>
+  </body>
+</html>
