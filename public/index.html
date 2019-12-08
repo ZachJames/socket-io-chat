@@ -1,22 +1,48 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
+    <title>Socket.IO Chatroom</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
-    <div class="container">
-      <div>
-        <ul class="messages"></ul>
+    <div class="select-username fade-in">
+      <p>Hello.</p>
+      <p>What is your name?</p>
+      <input type="text" />
+    </div>
+    <div class="chat">
+      <div class="page-top">
+        <span>12 online users</span>
+        <span>Your username: Zachincool</span>
       </div>
-      <div>
-        <form id="form">
-          <input id="input" autocomplete="off" /><button type="submit">
-            Send
-          </button>
-        </form>
+      <div class="page-middle">
+        <ul class="messages">
+          <li>
+            <span class="message-username">Zachincool:</span>Lorem ipsum dolor
+            sit amet consectetur adipisicing elit. Minus maiores voluptas labore
+            officia voluptatibus excepturi minima? Doloremque eligendi dolore,
+            architecto hic quas explicabo earum reiciendis at impedit in eius.
+            Quos.
+          </li>
+          <li>
+            <span class="message-username">Zachincool:</span>Lorem ipsum dolor
+            sit amet consectetur adipisicing elit. Minus maiores voluptas labore
+            officia voluptatibus excepturi minima? Doloremque eligendi dolore,
+            architecto hic quas explicabo earum reiciendis at impedit in eius.
+            Quos.
+          </li>
+          <li>
+            <span class="message-username">Zachincool:</span>Lorem ipsum dolor
+            sit amet consectetur adipisicing elit. Minus maiores voluptas labore
+          </li>
+        </ul>
       </div>
+      <div class="page-bottom"></div>
     </div>
   </body>
 </html>
