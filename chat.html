@@ -10,11 +10,11 @@
       }
       body {
         font: 13px Helvetica, Arial;
+        font-size: 1rem;
       }
       .container {
         border: 2px solid #ccc;
-        width: 500px;
-        margin: 10px auto 10px auto;
+        margin: 30px;
         height: 75vh;
         display: flex;
         flex-flow: column;
@@ -45,6 +45,7 @@
         border: none;
         border-top: 2px solid #ccc;
         border-left: 2px solid #ccc;
+        border-right: 2px solid #ccc;
         padding: 10px;
         cursor: pointer;
       }
@@ -62,6 +63,9 @@
       }
       #messages li:nth-child(odd) {
         background: #eee;
+      }
+      .light {
+        color: rgb(150, 150, 150);
       }
     </style>
     <script src="/socket.io/socket.io.js"></script>
@@ -81,9 +85,18 @@
     </div>
     <script>
       const socket = io();
-
       const messageForm = document.getElementById("form");
       const messageInput = document.getElementById("input");
+
+      function appendMessageToChat(message, type) {
+        const newMsg = document.createElement("li");
+        if (type === "light") {
+          newMsg.className = "light";
+        }
+        const newMsgText = document.createTextNode(message);
+        newMsg.appendChild(newMsgText);
+        document.getElementById("messages").appendChild(newMsg);
+      }
 
       messageForm.onsubmit = e => {
         e.preventDefault();
@@ -94,16 +107,12 @@
         return false;
       };
 
-      function appendMessageToChat(message) {
-        const newMsg = document.createElement("li");
-        const newMsgText = document.createTextNode(message);
-        newMsg.appendChild(newMsgText);
-        document.getElementById("messages").appendChild(newMsg);
-      }
-
       socket.on("user joined", () => {
-        const newMsg = document.createElement("li");
-        appendMessageToChat("A new user joined the chat.");
+        appendMessageToChat("A new user joined the chat.", "light");
+      });
+
+      socket.on("user left", () => {
+        appendMessageToChat("A user left the chat.", "light");
       });
 
       socket.on("chat message", msg => {
