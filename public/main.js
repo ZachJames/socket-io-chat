@@ -1,34 +1,35 @@
-const socket = io();
-const messageForm = document.getElementById("form");
-const messageInput = document.getElementById("input");
+$(function() {
+  const selectUsernamePage = $(".select-username");
+  const chatPage = $(".chat");
 
-function appendMessageToChat(message, type) {
-  const newMsg = document.createElement("li");
-  if (type === "light") {
-    newMsg.className = "light";
-  }
-  const newMsgText = document.createTextNode(message);
-  newMsg.appendChild(newMsgText);
-  document.getElementById("messages").appendChild(newMsg);
-}
+  // Input fields
+  const usernameInput = $(".username-input");
+  const usernameDisplay = $(".username-display");
 
-messageForm.onsubmit = e => {
-  e.preventDefault();
-  if (messageInput.value.tim() !== "") {
-    socket.emit("chat message", messageInput.value);
-    messageInput.value = "";
-  }
-  return false;
-};
+  const socket = io();
+  let username = null;
 
-socket.on("user joined", () => {
-  appendMessageToChat("A new user joined the chat.", "light");
-});
+  const addChatLogMessage = (message, options) => {
+    if (!options) {
+      options = {};
+    }
+  };
 
-socket.on("user left", () => {
-  appendMessageToChat("A user left the chat.", "light");
-});
+  // Login the user
+  const login = username => {
+    username = usernameInput.val().trim();
 
-socket.on("chat message", msg => {
-  appendMessageToChat(msg);
-});
+    if (username.length > 0) {
+      socket.emit("login user", username);
+      usernameDisplay.text(username);
+      selectUsernamePage.hide();
+      chatPage.show();
+    }
+  };
+
+  // When user submits username form
+  $(".username-form").submit(e => {
+    e.preventDefault();
+    login(username);
+  });
+})();

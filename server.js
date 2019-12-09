@@ -11,15 +11,9 @@ let numUsersInRoom = 0;
 io.on("connection", socket => {
   let userAdded = false;
 
-  socket.on("chat message", msg => {
-    socket.broadcast.emit("chat message", {
-      msg,
-      username: socket.username
-    });
+  socket.on("login user", username => {
+    console.log(username);
   });
-
-  io.emit("user joined");
-  socket.on("disconnect", () => io.emit("user left"));
 });
 
 const PORT = 3000;

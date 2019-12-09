@@ -7,18 +7,18 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
     <div class="select-username fade-in">
-      <p>Hello.</p>
-      <p>What is your name?</p>
-      <input type="text" />
+      <p>Hello. What is your name?</p>
+      <form class="username-form">
+        <input class="username-input" type="text" />
+      </form>
     </div>
     <div class="chat">
       <div class="page-top">
-        <span>12 online users</span>
-        <span>Your username: Zachincool</span>
+        <div class="user-count">12 online users</div>
+        <div>Logged in as <span class="username-display"></span></div>
       </div>
       <div class="page-middle">
         <ul class="messages">
@@ -44,5 +44,8 @@
       </div>
       <div class="page-bottom"></div>
     </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>

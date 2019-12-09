@@ -8,6 +8,7 @@ html {
   background-color: black;
   font-family: "Helvetica", sans-serif;
   color: #fff;
+  -webkit-font-smoothing: antialiased;
 }
 
 .select-username {
@@ -17,11 +18,11 @@ html {
   align-items: center;
   justify-content: center;
   font-size: 1.8rem;
+  transition: display 1s ease-in;
 }
 
 .select-username input {
   border: none;
-  width: 40%;
   background-color: transparent;
   border-bottom: 1px solid #fff;
   color: #fff;
@@ -36,7 +37,7 @@ input:focus {
 }
 
 .fade-in {
-  animation: fade-in 2s ease-in;
+  animation: fade-in 1.7s ease-in;
 }
 
 .chat {
