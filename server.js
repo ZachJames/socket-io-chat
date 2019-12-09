@@ -9,16 +9,15 @@ app.use(express.static(path.join(__dirname, 'public')))
 let numUsersInRoom = 0
 
 io.on('connection', socket => {
-  let thisUserLoggedIn = false
+  let userHasLoggedIn = false
 
   // When a user logs in, store the username in socket session
   // and increment num users in room
-  socket.on('user logged in', username => {
-    if (thisUserLoggedIn) return
-
-    socket.username = username
+  socket.on('USER_LOGIN', payload => {
+    if (userHasLoggedIn) return
+    socket.username = payload.username
     numUsersInRoom++
-    thisUserLoggedIn = true
+    userHasLoggedIn = true
     socket.broadcast.emit('update number of users', { numUsersInRoom })
   })
 
@@ -41,7 +40,7 @@ io.on('connection', socket => {
   })
 
   socket.on('disconnect', () => {
-    if (thisUserLoggedIn) {
+    if (userHasLoggedIn) {
       numUsersInRoom--
       socket.broadcast.emit('user left', {
         username: socket.username,

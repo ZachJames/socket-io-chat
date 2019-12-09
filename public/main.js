@@ -11,7 +11,7 @@ $(function() {
   let usernameColor = null
 
   const socket = io()
-  const colors = [
+  const usernameColors = [
     '#e21400',
     '#91580f',
     '#f8a700',
@@ -46,7 +46,8 @@ $(function() {
     }
   }
 
-  const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
+  const getRandomColor = () =>
+    usernameColors[Math.floor(Math.random() * usernameColors.length)]
 
   // When user submits username form
   $('.username-form').submit(e => {
@@ -61,6 +62,7 @@ $(function() {
       .val()
       .trim()
     socket.emit('new message', { message, username })
+    messageInput.val('')
   })
 
   /* Socket events */
