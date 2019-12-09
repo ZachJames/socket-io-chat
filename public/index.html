@@ -12,35 +12,25 @@
     <div class="select-username fade-in">
       <p>Hello. What is your name?</p>
       <form class="username-form">
-        <input class="username-input" type="text" />
+        <input class="username-input" type="text" required />
       </form>
     </div>
     <div class="chat">
       <div class="page-top">
-        <div class="user-count">12 online users</div>
-        <div>Logged in as <span class="username-display"></span></div>
+        <div class="user-count white-panel"></div>
+        <div class="white-panel">
+          Logged in as <span class="username-display"></span>
+        </div>
       </div>
       <div class="page-middle">
-        <ul class="messages">
-          <li>
-            <span class="message-username">Zachincool:</span>Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Minus maiores voluptas labore
-            officia voluptatibus excepturi minima? Doloremque eligendi dolore,
-            architecto hic quas explicabo earum reiciendis at impedit in eius.
-            Quos.
-          </li>
-          <li>
-            <span class="message-username">Zachincool:</span>Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Minus maiores voluptas labore
-            officia voluptatibus excepturi minima? Doloremque eligendi dolore,
-            architecto hic quas explicabo earum reiciendis at impedit in eius.
-            Quos.
-          </li>
-          <li>
-            <span class="message-username">Zachincool:</span>Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Minus maiores voluptas labore
-          </li>
-        </ul>
+        <ul class="messages"></ul>
+        <form class="message-form">
+          <input
+            class="message-input"
+            type="text"
+            placeholder="Enter a message..."
+          />
+        </form>
       </div>
       <div class="page-bottom"></div>
     </div>

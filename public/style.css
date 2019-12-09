@@ -6,9 +6,16 @@
 
 html {
   background-color: black;
-  font-family: "Helvetica", sans-serif;
+  font-family: 'Helvetica', sans-serif;
   color: #fff;
   -webkit-font-smoothing: antialiased;
+}
+
+.white-panel {
+  background-color: #fff;
+  color: black;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .select-username {
@@ -29,7 +36,7 @@ html {
   font-size: 2rem;
   text-align: center;
   margin-top: 20px;
-  padding: 5px;
+  padding: 8px;
 }
 
 input:focus {
@@ -52,6 +59,22 @@ input:focus {
   margin-bottom: 20px;
 }
 
+.page-middle {
+}
+
+.message-input {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  font-size: 1.5rem;
+  padding: 15px;
+  border: none;
+  color: #fff;
+  background: transparent;
+}
+
 .messages {
   list-style: none;
   font-size: 1.3rem;
@@ -63,8 +86,7 @@ input:focus {
 }
 
 .message-username {
-  color: #a8f07a;
-  margin-right: 15px;
+  margin-right: 7px;
   font-weight: bold;
 }
 
