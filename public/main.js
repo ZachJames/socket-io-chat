@@ -7,11 +7,8 @@ $(function() {
   const usernameDisplay = $('.username-display')
   const userCount = $('.user-count')
 
-  let username = null
-  let usernameColor = null
-  let isTyping = false
-
   const socket = io()
+
   const usernameColors = [
     '#e21400',
     '#91580f',
@@ -26,6 +23,10 @@ $(function() {
     '#a700ff',
     '#d300e7',
   ]
+
+  let username = null
+  let usernameColor = null
+  let isTyping = false
 
   // Append new message to chat
   const addMessageToChat = ({ message, username }) => {
@@ -47,7 +48,7 @@ $(function() {
     username = usernameInput.val().trim()
 
     if (username.length > 0) {
-      socket.emit('LOGIN')
+      socket.emit('LOGIN', { username })
       usernameDisplay.text(username)
       usernameColor = getRandomUsernameColor()
       selectUsernamePage.hide()
@@ -98,14 +99,17 @@ $(function() {
 
   /* Socket events */
 
-  socket.on('NEW_USER', ({ numUsersInRoom }) => {
-    let text = ''
-    if (numUsersInRoom === 1) {
-      text += '1 user online'
-    } else {
-      text += `${numUsersInRoom} users online`
+  socket.on('USER_JOINED', ({ username, numberOfUsersInRoom }) => {
+    console.log(username, 'joined')
+    let text = '1 user online'
+    if (numberOfUsersInRoom > 1) {
+      text = `${numberOfUsersInRoom} users online`
     }
     userCount.text(text)
+  })
+
+  socket.on('USER_LEFT', ({ username, numberOfUsersInRoom }) => {
+    console.log(username, 'left')
   })
 
   socket.on('USER_TYPING', ({ username }) => {

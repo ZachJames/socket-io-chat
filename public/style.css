@@ -18,6 +18,9 @@ html {
   border-radius: 5px;
 }
 
+.username-form {
+  margin-bottom: 65px;
+}
 .select-username {
   height: 100vh;
   display: flex;
@@ -37,6 +40,24 @@ html {
   text-align: center;
   margin-top: 20px;
   padding: 8px;
+}
+
+.color-select-list {
+  list-style: none;
+  margin-top: 15px;
+}
+
+.color-box {
+  display: inline-block;
+  cursor: pointer;
+  border: 1px solid white;
+  width: 32px;
+  height: 32px;
+  background-color: #e21400;
+}
+
+.color-box:hover {
+  filter: brightness(50%);
 }
 
 input:focus {

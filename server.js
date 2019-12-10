@@ -6,24 +6,22 @@ const io = require('socket.io')(http)
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-let numUsersInRoom = 0
+let numberOfUsersInRoom = 0
 
 io.on('connection', socket => {
   let userHasLoggedIn = false
 
-  // When a user logs in, store the username in socket session
-  // and increment num users in room
-  socket.on('LOGIN', payload => {
+  socket.on('LOGIN', ({ username }) => {
     if (userHasLoggedIn) return
-    socket.username = payload.username
-    numUsersInRoom++
+    socket.username = username
+    numberOfUsersInRoom++
     userHasLoggedIn = true
-    socket.broadcast.emit('update number of users', { numUsersInRoom })
+    io.emit('USER_JOINED', { username, numberOfUsersInRoom })
   })
 
   // When someone is typing
   socket.on('TYPING', () => {
-    socket.emit('USER_TYPING', {
+    socket.broadcast.emit('USER_TYPING', {
       username: socket.username,
     })
   })
@@ -46,13 +44,12 @@ io.on('connection', socket => {
   })
 
   socket.on('disconnect', () => {
-    if (userHasLoggedIn) {
-      numUsersInRoom--
-      socket.broadcast.emit('user left', {
-        username: socket.username,
-        numUsersInRoom: numUsersInRoom,
-      })
-    }
+    if (!userHasLoggedIn) return
+    numberOfUsersInRoom--
+    io.emit('USER_LEFT', {
+      username: socket.username,
+      numberOfUsersInRoom,
+    })
   })
 })
 
