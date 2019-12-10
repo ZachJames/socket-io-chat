@@ -1,10 +1,4 @@
-const express = require('express')
-const path = require('path')
-const app = express()
-const http = require('http').createServer(app)
-const io = require('socket.io')(http)
-
-app.use(express.static(path.join(__dirname, 'public')))
+const io = require('socket.io')()
 
 let numberOfUsersInRoom = 0
 
@@ -53,5 +47,6 @@ io.on('connection', socket => {
   })
 })
 
-const PORT = process.env.PORT || 3000
-http.listen(PORT, () => console.log(`> Server live on port ${PORT}`))
+const PORT = process.env.PORT || 5000
+io.listen(PORT)
+console.log(`> Socket server live on port ${PORT}`)
