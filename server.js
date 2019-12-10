@@ -13,7 +13,7 @@ io.on('connection', socket => {
 
   // When a user logs in, store the username in socket session
   // and increment num users in room
-  socket.on('USER_LOGIN', payload => {
+  socket.on('LOGIN', payload => {
     if (userHasLoggedIn) return
     socket.username = payload.username
     numUsersInRoom++
@@ -22,8 +22,14 @@ io.on('connection', socket => {
   })
 
   // When someone is typing
-  socket.on('user typing', () => {
-    socket.broadcast.emit('user typing', {
+  socket.on('TYPING', () => {
+    socket.emit('USER_TYPING', {
+      username: socket.username,
+    })
+  })
+
+  socket.on('STOPPED_TYPING', () => {
+    socket.emit('STOPPED_TYPING', {
       username: socket.username,
     })
   })

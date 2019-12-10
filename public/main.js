@@ -9,6 +9,7 @@ $(function() {
 
   let username = null
   let usernameColor = null
+  let isTyping = false
 
   const socket = io()
   const usernameColors = [
@@ -26,10 +27,19 @@ $(function() {
     '#d300e7',
   ]
 
+  // Append new message to chat
   const addMessageToChat = ({ message, username }) => {
-    messages.append(
-      `<li><span class="message-username" style="color: ${usernameColor}">${username}:</span>${message}</li>`
-    )
+    const usernameSpan = $('<span class="message-username"/>')
+      .text(username)
+      .css('color', getRandomUsernameColor())
+
+    const listItem = $('<li>')
+      .text(message)
+      .prepend(usernameSpan)
+
+    messages.append(listItem)
+
+    // $messages[0].scrollTop = $messages[0].scrollHeight
   }
 
   // Login the user
@@ -37,22 +47,43 @@ $(function() {
     username = usernameInput.val().trim()
 
     if (username.length > 0) {
-      socket.emit('user logged in', username)
+      socket.emit('LOGIN')
       usernameDisplay.text(username)
-      usernameColor = getRandomColor()
+      usernameColor = getRandomUsernameColor()
       selectUsernamePage.hide()
       chatPage.show()
       messageInput.focus()
     }
   }
 
-  const getRandomColor = () =>
+  // Get a random color for username color
+  const getRandomUsernameColor = () =>
     usernameColors[Math.floor(Math.random() * usernameColors.length)]
+
+  /* DOM Events */
 
   // When user submits username form
   $('.username-form').submit(e => {
     e.preventDefault()
     login()
+  })
+
+  messageInput.on('input', () => {
+    if (!isTyping) {
+      isTyping = true
+      socket.emit('TYPING')
+    }
+
+    const lastTypingTime = new Date().getTime()
+
+    setTimeout(() => {
+      const typingTimer = new Date().getTime()
+      const timeDiff = typingTimer - lastTypingTime
+      if (timeDiff >= 2000 && isTyping) {
+        socket.emit('STOPPED_TYPING')
+        isTyping = false
+      }
+    }, 2000)
   })
 
   // When user submits a new message
@@ -61,34 +92,27 @@ $(function() {
     const message = $('.message-input')
       .val()
       .trim()
-    socket.emit('new message', { message, username })
+    socket.emit('NEW_MESSAGE', { message })
     messageInput.val('')
   })
 
   /* Socket events */
 
-  // Whenever the server emits 'login', log the login message
-  socket.on('user logged in', ({ numUsersInRoom }) => {
-    // connected = true
-    // Display the welcome message
-    // var message = 'Welcome to Socket.IO Chat – '
-    // log(message, {
-    //   prepend: true,
-    // })
-  })
-
-  socket.on('update number of users', ({ numUsersInRoom }) => {
+  socket.on('NEW_USER', ({ numUsersInRoom }) => {
     let text = ''
     if (numUsersInRoom === 1) {
       text += '1 user online'
     } else {
       text += `${numUsersInRoom} users online`
     }
-    console.log(text)
     userCount.text(text)
   })
 
-  socket.on('new message', ({ message, username }) => {
+  socket.on('USER_TYPING', ({ username }) => {
+    addMessageToChat({ message: 'is typing', username })
+  })
+
+  socket.on('NEW_MESSAGE', ({ message, username }) => {
     addMessageToChat({ message, username })
   })
 
