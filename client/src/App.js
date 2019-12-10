@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
+import io from 'socket.io-client'
+
+import { Chat, Settings } from './pages'
+import GlobalStyles from './GlobalStyles'
+
+const socket = io('http://localhost:9000')
 
 function App() {
+  const [userSettings, setUserSettings] = useState({
+    username: '',
+    color: '',
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <GlobalStyles />
+      <Router>
+        <Route exact path="/" component={() => <Redirect to="/settings" />} />
+        <Route exact path="/settings" component={Settings} />
+        <Route exact path="/chat" component={Chat} />
+      </Router>
+    </>
+  )
 }
 
-export default App;
+export default App
