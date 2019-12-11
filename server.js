@@ -5,6 +5,8 @@ let numberOfUsersInRoom = 0
 io.on('connection', socket => {
   let userHasLoggedIn = false
 
+  socket.on('hello', () => console.log('helo'))
+
   socket.on('LOGIN', ({ username }) => {
     if (userHasLoggedIn) return
     socket.username = username
