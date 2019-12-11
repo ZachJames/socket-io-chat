@@ -1,49 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Socket.IO Chatroom</title>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Web site created using create-react-app" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>Socket.io Chatroom</title>
     <link
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="select-username fade-in">
-      <p>Hello. What is your name?</p>
-      <form class="username-form">
-        <input class="username-input" type="text" required />
-      </form>
-      <p>Select your username color:</p>
-      <ul class="color-select-list">
-        <li class="color-box"></li>
-        <li class="color-box"></li>
-        <li class="color-box"></li>
-        <li class="color-box"></li>
-        <li class="color-box"></li>
-      </ul>
-    </div>
-    <div class="chat">
-      <div class="page-top">
-        <div class="user-count white-panel"></div>
-        <div class="white-panel">
-          Logged in as <span class="username-display"></span>
-        </div>
-      </div>
-      <div class="page-middle">
-        <ul class="messages"></ul>
-        <form class="message-form">
-          <input
-            class="message-input"
-            type="text"
-            placeholder="Enter a message..."
-          />
-        </form>
-      </div>
-      <div class="page-bottom"></div>
-    </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="main.js"></script>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
   </body>
 </html>
