@@ -1,6 +1,7 @@
 const express = require('express')
 const http = require('http')
 const socketio = require('socket.io')
+const path = require('path')
 
 const app = express()
 const server = http.createServer(app)
@@ -29,6 +30,12 @@ io.on('connection', socket => {
   })
 })
 
-const PORT = process.env.PORT || 9000
-io.listen(PORT)
-console.log(`> Socket server live on port ${PORT}`)
+if (process.env.NODE_ENV === 'production') {
+  // Serve React app in production
+  server.use(express.static('client/build'))
+  server.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  })
+}
+
+server.listen(process.env.PORT || 5000, () => console.log(`Server has started.`))
