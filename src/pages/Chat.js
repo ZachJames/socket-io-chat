@@ -6,7 +6,7 @@ import Fade from 'react-reveal/Fade'
 import { useSettings } from '../store'
 import socket from '../socket-api'
 
-const TYPING_TIMER_LENGTH = 400
+// const TYPING_TIMER_LENGTH = 400
 
 const Container = styled.div`
   padding: 40px;
@@ -116,7 +116,9 @@ function Chat() {
     <Fade duration={1000}>
       <Container>
         <ChatBanner>
-          <div>{numUsersInChat} online users</div>
+          <div>
+            {numUsersInChat} online user{numUsersInChat > 1 && 's'}
+          </div>
           <div>Logged in as {state.username}</div>
         </ChatBanner>
         <ChatMessages>
@@ -133,7 +135,7 @@ function Chat() {
         </ChatMessages>
         <form onSubmit={onSendMessage}>
           <MessageInput
-            placeholder="Enter a message..."
+            placeholder="Enter a message...."
             onChange={handleTyping}
             value={messageInput}
           />

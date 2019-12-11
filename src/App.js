@@ -13,6 +13,7 @@ function App() {
         <Route exact path="/" component={() => <Redirect to="/settings" />} />
         <Route exact path="/settings" component={Settings} />
         <Route exact path="/chat" component={Chat} />
+        <Redirect to="/settings" />
       </Router>
     </SettingsProvider>
   )

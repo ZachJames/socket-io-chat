@@ -15,6 +15,8 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + './index.html')
 })
 
+app.get('*', (req, res) => res.redirect('/'))
+
 io.on('connection', socket => {
   socket.on('addUserToChat', user => {
     const { username, userColor } = user
