@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import io from 'socket.io-client'
 
@@ -6,10 +6,12 @@ import { SettingsProvider } from './store'
 import { Chat, Settings } from './pages'
 import GlobalStyles from './GlobalStyles'
 
-const socket = io('http://localhost:9000')
+const SOCKET_ENDPOINT = 'http://localhost:9000'
 
 function App() {
-  socket.emit('hello')
+  useEffect(() => {
+    const socket = io(SOCKET_ENDPOINT)
+  }, [SOCKET_ENDPOINT])
   return (
     <SettingsProvider>
       <GlobalStyles />

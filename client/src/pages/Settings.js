@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Fade from 'react-reveal/Fade'
 
 import { useSettings } from '../store'
 
@@ -18,6 +19,7 @@ const Container = styled.div`
 
 const Text = styled.p`
   margin: 8px;
+  color: #ccc;
 `
 
 const UsernameInput = styled.input`
@@ -30,6 +32,9 @@ const UsernameInput = styled.input`
   padding: 8px;
   &:focus {
     outline: none;
+  }
+  ::placeholder {
+    color: #ccc;
   }
 `
 
@@ -59,7 +64,7 @@ const SaveButton = styled.button`
   padding: 6px 10px 6px 10px;
   cursor: pointer;
   background-color: transparent;
-  color: #fff;
+  color: #ccc;
   border-radius: 3px;
   font-size: inherit;
   &:hover {
@@ -87,29 +92,38 @@ function Settings() {
   const { state, dispatch } = useSettings()
 
   return (
-    <Container>
-      <div>
-        <Text>Enter your username:</Text>
-        <UsernameInput />
-      </div>
-      <div>
-        <Text>Choose your color:</Text>
-        <ColorSelectList>
-          {colors.map(color => (
-            <li key={color}>
-              <ColorBoxButton
-                selected={state.userColor === color}
-                color={color}
-                onClick={() => dispatch({ type: 'SET_USER_COLOR', payload: color })}
-              />
-            </li>
-          ))}
-        </ColorSelectList>
-      </div>
-      <div>
-        <SaveButton>Save</SaveButton>
-      </div>
-    </Container>
+    <Fade duration={2500}>
+      <Container>
+        <div>
+          <UsernameInput
+            value={state.username}
+            placeholder="Enter username"
+            onChange={e =>
+              dispatch({ type: 'SET_USERNAME', payload: e.target.value })
+            }
+          />
+        </div>
+        <div>
+          <Text>Choose your color:</Text>
+          <ColorSelectList>
+            {colors.map(color => (
+              <li key={color}>
+                <ColorBoxButton
+                  selected={state.userColor === color}
+                  color={color}
+                  onClick={() =>
+                    dispatch({ type: 'SET_USER_COLOR', payload: color })
+                  }
+                />
+              </li>
+            ))}
+          </ColorSelectList>
+        </div>
+        <div>
+          <SaveButton>Save</SaveButton>
+        </div>
+      </Container>
+    </Fade>
   )
 }
 
