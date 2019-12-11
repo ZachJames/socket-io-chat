@@ -2,10 +2,13 @@ const express = require('express')
 const http = require('http')
 const socketio = require('socket.io')
 const path = require('path')
+const cors = require('cors')
 
 const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
+
+app.use(cors())
 
 const { addUser, deleteUser, getUser, getNumUsersInChat } = require('./users')
 

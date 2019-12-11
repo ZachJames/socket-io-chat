@@ -43,7 +43,7 @@ const Username = styled.span`
 const MessageText = styled.span``
 
 const MessageInput = styled.input`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
