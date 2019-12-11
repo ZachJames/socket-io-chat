@@ -42,11 +42,14 @@ const Username = styled.span`
 
 const MessageText = styled.span``
 
-const MessageInput = styled.input`
+const MessageForm = styled.form`
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+`
+
+const MessageInput = styled.input`
   width: 100%;
   font-size: 1.5rem;
   padding: 40px;
@@ -133,13 +136,13 @@ function Chat() {
             ))}
           </ul>
         </ChatMessages>
-        <form onSubmit={onSendMessage}>
+        <MessageForm onSubmit={onSendMessage}>
           <MessageInput
             placeholder="Enter a message...."
             onChange={handleTyping}
             value={messageInput}
           />
-        </form>
+        </MessageForm>
       </Container>
     </Fade>
   )
