@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import io from 'socket.io-client'
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 
 import { SettingsProvider } from './store'
 import { Chat, Settings } from './pages'
@@ -11,7 +11,9 @@ const SOCKET_ENDPOINT = 'http://localhost:9000'
 function App() {
   useEffect(() => {
     const socket = io(SOCKET_ENDPOINT)
-  }, [SOCKET_ENDPOINT])
+    socket.emit('')
+  }, [])
+
   return (
     <SettingsProvider>
       <GlobalStyles />

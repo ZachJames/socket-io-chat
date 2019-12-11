@@ -4,6 +4,17 @@ import Fade from 'react-reveal/Fade'
 
 import { useSettings } from '../store'
 
+const colors = [
+  '#3b88eb',
+  '#ff4330',
+  '#f78b00',
+  '#58dc00',
+  '#ffea58',
+  '#4ae8c4',
+  '#3824aa',
+  '#d300e7',
+]
+
 const Container = styled.div`
   height: 100vh;
   display: flex;
@@ -55,7 +66,7 @@ const ColorBoxButton = styled.button`
   outline: none;
   &:hover {
     filter: brightness(75%);
-    transition: all 0.3s;
+    transition: filter 0.3s;
   }
 `
 
@@ -77,27 +88,18 @@ const SaveButton = styled.button`
   }
 `
 
-const colors = [
-  '#3b88eb',
-  '#e21400',
-  '#f78b00',
-  '#58dc00',
-  '#287b00',
-  '#4ae8c4',
-  '#3824aa',
-  '#d300e7',
-]
-
 function Settings() {
   const { state, dispatch } = useSettings()
 
   return (
-    <Fade duration={2500}>
+    <Fade duration={2000}>
       <Container>
         <div>
           <UsernameInput
             value={state.username}
-            placeholder="Enter username"
+            placeholder="Enter username..."
+            onFocus={e => (e.target.placeholder = '')}
+            onBlur={e => (e.target.placeholder = 'Enter username...')}
             onChange={e =>
               dispatch({ type: 'SET_USERNAME', payload: e.target.value })
             }
