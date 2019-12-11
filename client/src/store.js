@@ -5,7 +5,7 @@ const SettingsContext = createContext()
 const INITIAL_STATE = {
   username: '',
   userColor: '#3b88eb',
-  loggedIn: false,
+  error: '',
 }
 
 function reducer(state, { type, payload }) {
@@ -16,6 +16,12 @@ function reducer(state, { type, payload }) {
     case 'SET_USER_COLOR': {
       return { ...state, userColor: payload }
     }
+    case 'SET_ERROR': {
+      return { ...state, error: payload }
+    }
+    case 'CLEAR_ERROR': {
+      return { ...state, error: '' }
+    }
     default: {
       throw new Error(`Unhandled action type: ${type}`)
     }
@@ -24,11 +30,7 @@ function reducer(state, { type, payload }) {
 
 function SettingsProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
-  return (
-    <SettingsContext.Provider value={{ state, dispatch }}>
-      {children}
-    </SettingsContext.Provider>
-  )
+  return <SettingsContext.Provider value={{ state, dispatch }}>{children}</SettingsContext.Provider>
 }
 
 function useSettings() {

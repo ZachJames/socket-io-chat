@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Fade from 'react-reveal/Fade'
 
 import { useSettings } from '../store'
+import socket from '../socket-api'
 
 const colors = [
   '#3b88eb',
@@ -88,21 +89,38 @@ const SaveButton = styled.button`
   }
 `
 
-function Settings() {
+const Error = styled.p`
+  color: red;
+  margin-bottom: 15px;
+`
+
+function Settings({ history }) {
   const { state, dispatch } = useSettings()
 
+  const onSave = () => {
+    if (state.username === '') {
+      dispatch({ type: 'SET_ERROR', payload: 'You must set a username.' })
+      setTimeout(() => dispatch({ type: 'CLEAR_ERROR' }), 5000)
+      return
+    }
+
+    const newUser = { username: state.username, userColor: state.userColor }
+
+    socket.emit('addUserToChat', newUser)
+    history.push('/chat')
+  }
+
   return (
-    <Fade duration={2000}>
+    <Fade duration={1200}>
       <Container>
+        <Error>{state.error}</Error>
         <div>
           <UsernameInput
-            value={state.username}
             placeholder="Enter username..."
             onFocus={e => (e.target.placeholder = '')}
             onBlur={e => (e.target.placeholder = 'Enter username...')}
-            onChange={e =>
-              dispatch({ type: 'SET_USERNAME', payload: e.target.value })
-            }
+            onChange={e => dispatch({ type: 'SET_USERNAME', payload: e.target.value })}
+            value={state.username}
           />
         </div>
         <div>
@@ -113,16 +131,14 @@ function Settings() {
                 <ColorBoxButton
                   selected={state.userColor === color}
                   color={color}
-                  onClick={() =>
-                    dispatch({ type: 'SET_USER_COLOR', payload: color })
-                  }
+                  onClick={() => dispatch({ type: 'SET_USER_COLOR', payload: color })}
                 />
               </li>
             ))}
           </ColorSelectList>
         </div>
         <div>
-          <SaveButton>Save</SaveButton>
+          <SaveButton onClick={onSave}>Save</SaveButton>
         </div>
       </Container>
     </Fade>
